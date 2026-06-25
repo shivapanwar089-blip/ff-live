@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>FF Live Admin Panel</title>
+
+<style>
+body{
+    background:#0f0f0f;
+    color:white;
+    font-family:Arial,sans-serif;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+}
+
+#teams{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:15px;
+}
+
+.team-card{
+    background:#1c1c1c;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #333;
+}
+
+.team-name{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.kills{
+    font-size:24px;
+    margin:10px 0;
+}
+
+button{
+    padding:8px 12px;
+    margin:4px;
+    cursor:pointer;
+    border:none;
+    border-radius:6px;
+}
+
+.plus{
+    background:#00c853;
+    color:white;
+}
+
+.minus{
+    background:#d50000;
+    color:white;
+}
+
+.alive-btn{
+    background:#333;
+    color:white;
+}
+
+.delete-btn{
+    background:#ff1744;
+    color:white;
+}
+
+.add-team{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    padding:15px 20px;
+    background:#ff9800;
+    color:black;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>FREE FIRE ADMIN PANEL</h1>
+
+<div id="teams"></div>
+
+<button class="add-team" onclick="addTeam()">
++ Add Team
+</button>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+push,
+set,
+update,
+remove,
+onValue
+}
+from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyA50yJhPtLqfjZGkQ7aB4YYiBJymInDghA",
+authDomain: "fflive-792a5.firebaseapp.com",
+databaseURL: "https://fflive-792a5-default-rtdb.firebaseio.com",
+projectId: "fflive-792a5",
+storageBucket: "fflive-792a5.firebasestorage.app",
+messagingSenderId: "479680596017",
+appId: "1:479680596017:web:99e9f7ef93bb9b27c32d10"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const teamsDiv = document.getElementById("teams");
+
+function renderTeams(data){
+
+teamsDiv.innerHTML="";
+
+Object.keys(data || {}).forEach(id=>{
+
+const team=data[id];
+
+const card=document.createElement("div");
+card.className="team-card";
+
+card.innerHTML=`
+<div class="team-name">${team.name}</div>
+
+<div class="kills">
+Kills: ${team.kills}
+</div>
+
+<button class="minus">-1 Kill</button>
+<button class="plus">+1 Kill</button>
+
+<hr>
+
+Alive Players:
+
+<br><br>
+
+<button class="alive-btn">0</button>
+<button class="alive-btn">1</button>
+<button class="alive-btn">2</button>
+<button class="alive-btn">3</button>
+<button class="alive-btn">4</button>
+
+<hr>
+
+<input
+type="text"
+value="${team.logo || ''}"
+placeholder="Logo URL"
+>
+
+<br><br>
+
+<button class="delete-btn">
+Delete Team
+</button>
+`;
+
+teamsDiv.appendChild(card);
+
+const buttons=card.querySelectorAll("button");
+
+buttons[0].onclick=()=>{
+update(ref(db,'teams/'+id),{
+kills:Math.max(0,(team.kills||0)-1)
+});
+};
+
+buttons[1].onclick=()=>{
+update(ref(db,'teams/'+id),{
+kills:(team.kills||0)+1
+});
+};
+
+for(let i=0;i<5;i++){
+buttons[i+2].onclick=()=>{
+update(ref(db,'teams/'+id),{
+alive:i
+});
+};
+}
+
+buttons[7].onclick=()=>{
+if(confirm("Delete Team?")){
+remove(ref(db,'teams/'+id));
+}
+};
+
+const logoInput=card.querySelector("input");
+
+logoInput.onchange=()=>{
+update(ref(db,'teams/'+id),{
+logo:logoInput.value
+});
+};
+
+});
+
+}
+
+window.addTeam=function(){
+
+const name=prompt("Team Name");
+
+if(!name)return;
+
+const logo=prompt("Logo URL") || "";
+
+const newRef=push(ref(db,"teams"));
+
+set(newRef,{
+name:name,
+kills:0,
+alive:4,
+logo:logo
+});
+
+};
+
+onValue(ref(db,"teams"),snapshot=>{
+renderTeams(snapshot.val());
+});
+
+</script>
+
+</body>
+</html>
