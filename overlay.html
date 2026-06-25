@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>FF Live Overlay</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:transparent;
+overflow:hidden;
+}
+
+/* NORMAL LEADERBOARD */
+
+#leaderboard{
+position:absolute;
+right:20px;
+top:100px;
+width:420px;
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.team-row{
+display:flex;
+align-items:center;
+background:rgba(0,0,0,.85);
+border-left:5px solid orange;
+padding:10px;
+border-radius:8px;
+color:white;
+}
+
+.rank{
+width:40px;
+font-size:22px;
+font-weight:bold;
+text-align:center;
+}
+
+.logo{
+width:40px;
+height:40px;
+margin-right:10px;
+border-radius:50%;
+object-fit:cover;
+background:#222;
+}
+
+.name{
+flex:1;
+font-weight:bold;
+font-size:16px;
+}
+
+.kills{
+width:70px;
+text-align:center;
+font-size:20px;
+font-weight:bold;
+color:#ffb300;
+}
+
+.alive{
+width:70px;
+text-align:center;
+font-size:20px;
+letter-spacing:2px;
+color:#00ff88;
+}
+
+/* FINAL 4 MODE */
+
+#final4{
+display:none;
+position:absolute;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+gap:15px;
+}
+
+.final-card{
+width:240px;
+background:rgba(0,0,0,.90);
+border:2px solid orange;
+border-radius:12px;
+padding:12px;
+color:white;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.final-logo{
+width:70px;
+height:70px;
+border-radius:50%;
+object-fit:cover;
+margin-bottom:10px;
+}
+
+.final-name{
+font-size:18px;
+font-weight:bold;
+margin-bottom:8px;
+text-align:center;
+}
+
+.final-kills{
+font-size:28px;
+color:#ffb300;
+font-weight:bold;
+}
+
+.final-alive{
+font-size:22px;
+margin-top:5px;
+color:#00ff88;
+}
+
+.final-win{
+margin-top:8px;
+font-size:18px;
+color:#00d4ff;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="leaderboard"></div>
+
+<div id="final4"></div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+onValue
+}
+from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyA5oyJhPtLqfjZGkQ7aB4YYiBJymIhDghA",
+authDomain: "fflive-792a5.firebaseapp.com",
+databaseURL: "https://fflive-792a5-default-rtdb.firebaseio.com",
+projectId: "fflive-792a5",
+storageBucket: "fflive-792a5.firebasestorage.app",
+messagingSenderId: "479680596017",
+appId: "1:479680596017:web:99e9f7ef93bb9b27c32d10"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const leaderboard=document.getElementById("leaderboard");
+const final4=document.getElementById("final4");
+
+function sticks(num){
+return "|".repeat(num);
+}
+
+function render(data){
+
+let teams=Object.entries(data || {})
+.map(([id,t])=>({id,...t}));
+
+teams.sort((a,b)=>b.kills-a.kills);
+
+const aliveTeams=teams.filter(t=>t.alive>0);
+
+if(aliveTeams.length<=4 && aliveTeams.length>0){
+
+leaderboard.style.display="none";
+final4.style.display="flex";
+
+const totalKills=aliveTeams.reduce(
+(sum,t)=>sum+t.kills,0
+);
+
+final4.innerHTML="";
+
+aliveTeams.forEach(team=>{
+
+const winPercent=
+totalKills===0
+? Math.round(100/aliveTeams.length)
+: Math.round((team.kills/totalKills)*100);
+
+final4.innerHTML+=`
+<div class="final-card">
+
+<img
+class="final-logo"
+src="${team.logo}"
+onerror="this.src='https://via.placeholder.com/70'"
+>
+
+<div class="final-name">
+${team.name}
+</div>
+
+<div class="final-kills">
+${team.kills} KILLS
+</div>
+
+<div class="final-alive">
+${sticks(team.alive)}
+</div>
+
+<div class="final-win">
+${winPercent}% WIN
+</div>
+
+</div>
+`;
+
+});
+
+}
+else{
+
+leaderboard.style.display="flex";
+final4.style.display="none";
+
+leaderboard.innerHTML="";
+
+teams.forEach((team,index)=>{
+
+leaderboard.innerHTML+=`
+<div class="team-row">
+
+<div class="rank">
+#${index+1}
+</div>
+
+<img
+class="logo"
+src="${team.logo}"
+onerror="this.src='https://via.placeholder.com/40'"
+>
+
+<div class="name">
+${team.name}
+</div>
+
+<div class="kills">
+${team.kills}
+</div>
+
+<div class="alive">
+${sticks(team.alive)}
+</div>
+
+</div>
+`;
+
+});
+
+}
+
+}
+
+onValue(ref(db,"teams"),snapshot=>{
+render(snapshot.val());
+});
+
+</script>
+
+</body>
+</html>
