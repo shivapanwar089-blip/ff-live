@@ -19,15 +19,17 @@ let teams = {};
 
 function loadTeams() {
 
+    console.log("Loading teams...");
+
     const teamsRef = ref(db, "teams");
 
     onValue(teamsRef, (snapshot) => {
 
-        console.log("Firebase Data:");
-
-        console.log(snapshot.val());
+        console.log("Snapshot:", snapshot.val());
 
         teams = snapshot.val() || {};
+
+        console.log("Teams variable:", teams);
 
         renderTable();
 
