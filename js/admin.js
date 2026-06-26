@@ -23,6 +23,10 @@ function loadTeams() {
 
     onValue(teamsRef, (snapshot) => {
 
+        console.log("Firebase Data:");
+
+        console.log(snapshot.val());
+
         teams = snapshot.val() || {};
 
         renderTable();
