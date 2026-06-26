@@ -114,12 +114,45 @@ kills:t.kills+value
 
 }
 
-window.setAlive=function(id,value){
+window.setAlive = function(id, value){
 
-update(ref(db,"teams/"+id),{
+    update(ref(db,"teams/"+id),{
 
-alive:value
+        alive:value
 
-});
+    });
 
 }
+
+// --------------------
+// ADD TEAM BUTTON
+// --------------------
+
+document.getElementById("addTeam").onclick = async () => {
+
+    const teamName = prompt("Enter Team Name");
+
+    if (!teamName) return;
+
+    const logo = prompt("Enter Logo URL (optional)") || "";
+
+    const teamsRef = ref(db, "teams");
+
+    const snapshot = await get(teamsRef);
+
+    const teams = snapshot.val() || {};
+
+    const newKey = "team" + (Object.keys(teams).length + 1);
+
+    update(ref(db, "teams/" + newKey), {
+
+        name: teamName,
+        kills: 0,
+        alive: 4,
+        logo: logo,
+        eliminated: false,
+        position: 0
+
+    });
+
+};
