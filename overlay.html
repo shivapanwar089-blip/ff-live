@@ -83,15 +83,24 @@ return html;
 
 function sideBars(num){
 
-let bars="";
+let html="";
 
 for(let i=0;i<4;i++){
 
-bars += i<num ? "▮" : "▯";
+if(i<num){
+
+html += `<span class="side-box alive"></span>`;
+
+}
+else{
+
+html += `<span class="side-box dead"></span>`;
 
 }
 
-return bars;
+}
+
+return html;
 
 }
 
