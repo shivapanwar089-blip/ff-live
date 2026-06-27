@@ -74,105 +74,204 @@ return bars;
 
 function render(data){
 
-let teams=Object.entries(data || {})
+let teams = Object.entries(data || {})
 .map(([id,t])=>({id,...t}));
 
-teams.sort((a,b)=>b.kills-a.kills);
+// Sort by Alive first, then Kills
 
-const aliveTeams=teams.filter(t=>t.alive>0);
+teams.sort((a,b)=>{
 
-if(aliveTeams.length<=4 && aliveTeams.length>0){
+if(a.alive!==b.alive){
 
-leaderboard.style.display="none";
-final4.style.display="flex";
+return b.alive-a.alive;
 
-// Win Probability
-// Alive = 70%
-// Kills = 30%
+}
 
-const totalScore = aliveTeams.reduce((sum, team) => {
-    return sum + (team.kills * 0.3 + team.alive * 0.7);
-}, 0);
-
-aliveTeams.forEach(team => {
-
-    const score = (team.kills * 0.3) + (team.alive * 0.7);
-
-    const winPercent =
-        totalScore === 0
-        ? Math.round(100 / aliveTeams.length)
-        : Math.round((score / totalScore) * 100);
-
-    final4.innerHTML += `
-
-<div class="final-card">
-
-    <div class="card-top">
-
-        <div class="team-left">
-
-            <span class="rank">#${team.rank || ""}</span>
-
-            <span class="team-name">${team.name}</span>
-
-        </div>
-
-        <div class="team-alive">
-
-            ${"|".repeat(team.alive)}
-
-        </div>
-
-    </div>
-
-    <div class="win-percent">
-
-        Win ${winPercent}%
-
-    </div>
-
-</div>
-
-`;
+return b.kills-a.kills;
 
 });
 
-}
-else{
+const aliveTeams = teams.filter(t=>t.alive>0);
+
+// ===================================================
+// NORMAL LEADERBOARD
+// ===================================================
+
+if(aliveTeams.length>4){
 
 leaderboard.style.display="flex";
+
 final4.style.display="none";
 
 leaderboard.innerHTML="";
 
 teams.forEach((team,index)=>{
 
+const eliminated = team.alive==0;
+
 leaderboard.innerHTML+=`
-<div class="team-row">
+
+<div class="team-row ${eliminated ? "eliminated":""}">
 
 <div class="rank">
+
 #${index+1}
+
 </div>
 
 <img
+
 class="logo"
+
 src="${team.logo}"
-onerror="this.src='https://via.placeholder.com/40'"
+
+onerror="this.src='assets/logos/default.png'"
+
 >
 
 <div class="name">
+
 ${team.name}
+
 </div>
 
 <div class="kills">
+
 ${team.kills}
+
 </div>
 
 <div class="alive">
+
 ${sticks(team.alive)}
+
 </div>
 
 </div>
+
+`;
+
+
+// =======================================
+// ELIMINATION FEED
+// =======================================
+
+if(eliminated && !eliminatedTeams.has(team.id)){
+
+eliminatedTeams.add(team.id);
+
+elimFeed.innerHTML=`
+
+<div class="elim-card">
+
+<div class="players">
+
+<img src="assets/characters/default.png">
+
+<img src="assets/characters/default.png">
+
+<img src="assets/characters/default.png">
+
+<img src="assets/characters/default.png">
+
+</div>
+
+<div class="elim-team">
+
+${team.name}
+
+</div>
+
+<div class="elim-text">
+
+ELIMINATED
+
+</div>
+
+</div>
+
+`;
+
+setTimeout(()=>{
+
+elimFeed.innerHTML="";
+
+},5000);
+
+}
+
+});
+
+}
+
+// ===================================================
+// FINAL FOUR
+// ===================================================
+
+else{
+
+leaderboard.style.display="none";
+
+final4.style.display="flex";
+
+final4.innerHTML="";
+
+const totalScore = aliveTeams.reduce((sum,team)=>{
+
+return sum+(team.alive*0.7+team.kills*0.3);
+
+},0);
+
+aliveTeams.forEach((team,index)=>{
+
+const score=(team.alive*0.7)+(team.kills*0.3);
+
+const win=Math.round(score/totalScore*100);
+
+final4.innerHTML+=`
+
+<div class="final-card">
+
+<div class="card-top">
+
+<div class="team-left">
+
+<img
+
+class="logo"
+
+src="${team.logo}"
+
+onerror="this.src='assets/logos/default.png'"
+
+>
+
+<div class="team-name">
+
+#${index+1}
+
+${team.name}
+
+</div>
+
+</div>
+
+<div class="team-alive">
+
+${sticks(team.alive)}
+
+</div>
+
+</div>
+
+<div class="win-percent">
+
+WIN ${win}%
+
+</div>
+
+</div>
+
 `;
 
 });
@@ -180,7 +279,7 @@ ${sticks(team.alive)}
 }
 
 }
-
+    
 onValue(ref(db,"teams"),snapshot=>{
 render(snapshot.val());
 });
