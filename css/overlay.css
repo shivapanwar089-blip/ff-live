@@ -349,16 +349,15 @@ opacity:1;
 
 width:12px;
 
-height:18px;
-
-display:inline-block;
+height:16px;
 
 border-radius:2px;
 
-border:1px solid rgba(255,255,255,.30);
+display:block;
+
+flex-shrink:0;
 
 }
-
 .alive{
 
 background:#00ff55;
