@@ -1,232 +1,166 @@
+/* ======================================================
+   FF LIVE OVERLAY
+   PART 1
+   Global + Elimination Feed + Leaderboard
+====================================================== */
+
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-background:transparent;
-overflow:hidden;
+    background:transparent;
+    overflow:hidden;
+    user-select:none;
 }
 
-/* ===========================
+/* ======================================================
    ELIMINATION FEED
-=========================== */
+====================================================== */
 
 #elimFeed{
-
-position:absolute;
-
-left:20px;
-
-top:150px;
-
-width:340px;
-
-display:flex;
-
-flex-direction:column;
-
-gap:15px;
-
-z-index:9999;
-
+    position:absolute;
+    left:20px;
+    top:140px;
+    width:340px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    z-index:999;
 }
 
 .elim-card{
-
-background:#171717;
-
-border-left:8px solid #ff3b3b;
-
-border-radius:12px;
-
-padding:12px;
-
-color:white;
-
-animation:slideLeft .45s;
-
-box-shadow:0 0 20px rgba(0,0,0,.55);
-
+    background:#171717;
+    border-left:7px solid #ff4040;
+    border-radius:12px;
+    padding:12px;
+    color:#fff;
+    animation:slideLeft .45s ease;
+    box-shadow:0 8px 22px rgba(0,0,0,.45);
 }
 
 .players{
-
-display:flex;
-
-justify-content:center;
-
-gap:4px;
-
-margin-bottom:10px;
-
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    margin-bottom:10px;
 }
 
 .players img{
-
-width:65px;
-
-height:65px;
-
-border-radius:8px;
-
-object-fit:cover;
-
+    width:64px;
+    height:64px;
+    object-fit:cover;
+    border-radius:8px;
 }
 
 .elim-team{
-
-font-size:22px;
-
-font-weight:bold;
-
-text-align:center;
-
-margin-top:8px;
-
+    text-align:center;
+    font-size:21px;
+    font-weight:bold;
+    margin-top:6px;
 }
 
 .elim-text{
-
-margin-top:10px;
-
-background:#ff3030;
-
-padding:8px;
-
-border-radius:8px;
-
-text-align:center;
-
-font-weight:bold;
-
-font-size:18px;
-
-letter-spacing:1px;
-
+    margin-top:10px;
+    background:#ff4040;
+    border-radius:8px;
+    text-align:center;
+    padding:8px;
+    font-size:18px;
+    font-weight:bold;
+    letter-spacing:1px;
 }
 
-/* ===========================
+/* ======================================================
    LEADERBOARD
-=========================== */
+====================================================== */
 
 #leaderboard{
-
-position:absolute;
-
-right:20px;
-
-top:90px;
-
-width:430px;
-
-display:flex;
-
-flex-direction:column;
-
-gap:8px;
-
+    position:absolute;
+    right:20px;
+    top:90px;
+    width:430px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
 }
 
 .team-row{
-
-display:flex;
-
-align-items:center;
-
-background:rgba(18,18,18,.92);
-
-border-left:5px solid orange;
-
-padding:10px;
-
-border-radius:8px;
-
-transition:.35s;
-
-color:white;
-
+    display:flex;
+    align-items:center;
+    background:rgba(20,20,20,.92);
+    border-left:5px solid #ff9800;
+    border-radius:8px;
+    padding:10px 12px;
+    color:white;
+    transition:.25s;
 }
 
 .team-row.eliminated{
-
-opacity:.35;
-
-filter:grayscale(100%);
-
+    opacity:.35;
+    filter:grayscale(100%);
 }
 
 .rank{
-
-width:42px;
-
-text-align:center;
-
-font-size:20px;
-
-font-weight:bold;
-
+    width:42px;
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
 }
 
 .logo{
-
-width:42px;
-
-height:42px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-margin-right:10px;
-
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-right:10px;
 }
 
 .name{
-
-flex:1;
-
-font-size:16px;
-
-font-weight:bold;
-
+    flex:1;
+    font-size:16px;
+    font-weight:bold;
 }
 
 .kills{
-
-width:70px;
-
-text-align:center;
-
-color:#ffb300;
-
-font-size:19px;
-
-font-weight:bold;
-
+    width:55px;
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+    color:#ffb300;
 }
+
+/* Leaderboard Alive Bars */
 
 .alive{
-
-width:70px;
-
-text-align:center;
-
-font-size:18px;
-
-font-weight:bold;
-
-letter-spacing:2px;
-
-color:#00ff55;
-
+    width:56px;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:3px;
 }
 
-/* ===========================
+.side-box{
+    width:8px;
+    height:14px;
+    border-radius:2px;
+    flex-shrink:0;
+}
+
+.side-box.alive{
+    background:#00ff55;
+}
+
+.side-box.dead{
+    background:#ffffff;
+}
+
+/* ======================================================
    FINAL 4
-=========================== */
+====================================================== */
 
 #final4{
 
@@ -234,13 +168,17 @@ display:none;
 
 position:absolute;
 
-top:18px;
+top:20px;
 
 left:50%;
 
 transform:translateX(-50%);
 
-gap:15px;
+display:flex;
+
+gap:16px;
+
+z-index:1000;
 
 }
 
@@ -248,13 +186,17 @@ gap:15px;
 
 width:310px;
 
-height:85px;
+height:88px;
 
-padding:10px 14px;
+padding:12px 14px;
 
 border-radius:12px;
 
-background:linear-gradient(90deg,#5b29ff,#9a43ff);
+background:linear-gradient(90deg,#5c2cff 0%,#9f43ff 100%);
+
+border:2px solid rgba(255,255,255,.18);
+
+box-shadow:0 8px 20px rgba(0,0,0,.40);
 
 display:flex;
 
@@ -264,9 +206,7 @@ justify-content:center;
 
 color:white;
 
-border:2px solid rgba(255,255,255,.25);
-
-box-shadow:0 0 15px rgba(0,0,0,.45);
+overflow:hidden;
 
 }
 
@@ -290,21 +230,29 @@ gap:10px;
 
 }
 
+.final-card .logo{
+
+width:44px;
+
+height:44px;
+
+margin-right:0;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
 .team-name{
 
 font-size:17px;
 
-font-weight:bold;
+font-weight:700;
 
-}
+line-height:1.2;
 
-.team-alive{
-
-display:flex;
-
-align-items:center;
-
-gap:4px;
+text-transform:uppercase;
 
 }
 
@@ -312,43 +260,21 @@ gap:4px;
 
 margin-top:8px;
 
-font-size:17px;
-
-font-weight:bold;
-
 margin-left:54px;
 
-}
+font-size:16px;
 
-/* ===========================
-   ANIMATION
-=========================== */
+font-weight:700;
 
-@keyframes slideLeft{
+color:#ffffff;
 
-from{
-
-transform:translateX(-400px);
-
-opacity:0;
+letter-spacing:.4px;
 
 }
 
-to{
-
-transform:translateX(0);
-
-opacity:1;
-
-}
-
-}
-
-/* ===========================
-   PLAYER BARS
-=========================== */
-
-/* ---------- TOP 4 ---------- */
+/* ======================================================
+   FINAL 4 PLAYER BARS
+====================================================== */
 
 .team-alive{
 
@@ -388,46 +314,139 @@ background:#ffffff;
 
 }
 
-/* ---------- SIDE LEADERBOARD ---------- */
+/* ======================================================
+   CHAMPION OVERLAY
+====================================================== */
 
-.alive{
+#champion{
 
-display:flex;
+position:absolute;
+
+top:50%;
+
+left:50%;
+
+transform:translate(-50%,-50%);
+
+display:none;
+
+flex-direction:column;
 
 align-items:center;
 
-justify-content:flex-end;
+justify-content:center;
 
-gap:4px;
+z-index:99999;
 
-width:50px;
-
-margin-left:8px;
+pointer-events:none;
 
 }
 
-.side-box{
+#champion.show{
 
-width:8px;
+display:flex;
 
-height:14px;
-
-border-radius:2px;
-
-display:block;
-
-flex-shrink:0;
+animation:championZoom .8s ease;
 
 }
 
-.side-box.alive{
+.champion-title{
 
-background:#00ff55;
+font-size:90px;
+
+font-weight:900;
+
+color:#FFD700;
+
+text-shadow:
+0 0 15px #FFD700,
+0 0 30px #FF9800,
+0 0 45px #FF5722;
+
+letter-spacing:6px;
 
 }
 
-.side-box.dead{
+.champion-team{
 
-background:#ffffff;
+margin-top:20px;
+
+font-size:42px;
+
+font-weight:bold;
+
+color:white;
+
+text-shadow:0 0 12px black;
+
+text-transform:uppercase;
+
+}
+
+/* ======================================================
+   COMMON ANIMATIONS
+====================================================== */
+
+@keyframes slideLeft{
+
+from{
+
+transform:translateX(-350px);
+
+opacity:0;
+
+}
+
+to{
+
+transform:translateX(0);
+
+opacity:1;
+
+}
+
+}
+
+@keyframes championZoom{
+
+0%{
+
+transform:translate(-50%,-50%) scale(.4);
+
+opacity:0;
+
+}
+
+60%{
+
+transform:translate(-50%,-50%) scale(1.08);
+
+opacity:1;
+
+}
+
+100%{
+
+transform:translate(-50%,-50%) scale(1);
+
+opacity:1;
+
+}
+
+}
+
+@keyframes fadeIn{
+
+from{
+
+opacity:0;
+
+}
+
+to{
+
+opacity:1;
+
+}
 
 }
