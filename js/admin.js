@@ -2,78 +2,75 @@ import { db } from "../firebase.js";
 
 import {
     ref,
-    onValue,
-    update,
-    push,
-    remove,
-    get
+    onValue
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
+import {
+    addTeam,
+    deleteTeam,
+    changeKills,
+    setAlive
+} from "./teamManager.js";
+
+import {
+    resetMatch,
+    finishMatch,
+    checkTop4,
+    checkChampion
+} from "./matchManager.js";
+
 const teamTable = document.getElementById("teamTable");
-console.log(teamTable);
+
 let teams = {};
 
-// ----------------------
-// LOAD TEAMS FROM FIREBASE
-// ----------------------
+// --------------------------
+// LOAD TEAMS
+// --------------------------
 
-function loadTeams() {
+onValue(ref(db, "teams"), (snapshot) => {
 
-    console.log("Loading teams...");
+    teams = snapshot.val() || {};
 
-    const teamsRef = ref(db, "teams");
+    renderTable();
 
-    onValue(teamsRef, (snapshot) => {
+});
 
-        console.log("Snapshot:", snapshot.val());
+// --------------------------
+// RENDER TABLE
+// --------------------------
 
-        teams = snapshot.val() || {};
+function renderTable() {
 
-        console.log("Teams variable:", teams);
-
-        renderTable();
-
-    });
-
-}
-
-loadTeams();
-
-// ----------------------
-// DRAW TABLE
-// ----------------------
-
-function renderTable(){
-
-    // Clear old table
     teamTable.innerHTML = "";
 
-    // Convert Firebase object into an array
-    const sortedTeams = Object.entries(teams);
+    const sorted = Object.entries(teams);
 
-    // Sort by kills (highest first)
-    sortedTeams.sort((a,b)=>{
+    sorted.sort((a, b) => {
 
+        // Alive teams first
+        if (a[1].alive != b[1].alive) {
+            return b[1].alive - a[1].alive;
+        }
+
+        // Then kills
         return b[1].kills - a[1].kills;
 
     });
 
-    // Create one row for every team
-    sortedTeams.forEach(([id,team],index)=>{
+    sorted.forEach(([id, team], index) => {
 
         teamTable.innerHTML += `
 
 <tr>
 
-<td>${index+1}</td>
+<td>${index + 1}</td>
 
 <td>
 
 <img
 class="teamLogo"
-src="${team.logo}"
-width="45"
-height="45">
+src="${team.logo || 'assets/logos/default.png'}"
+onerror="this.src='assets/logos/default.png'">
 
 </td>
 
@@ -85,39 +82,89 @@ ${team.name}
 
 <td>
 
-<button onclick="changeKills('${id}',-1)">-</button>
+<button
+class="killBtn minus"
+onclick="changeKillsWindow('${id}',-1)">
 
-<b>${team.kills}</b>
+-
 
-<button onclick="changeKills('${id}',1)">+</button>
+</button>
+
+<span class="killValue">
+
+${team.kills}
+
+</span>
+
+<button
+class="killBtn plus"
+onclick="changeKillsWindow('${id}',1)">
+
++
+
+</button>
 
 </td>
 
 <td>
 
-<div>
+<div class="aliveDisplay">
 
-<b>Alive : ${team.alive}</b>
+Alive : ${team.alive}
 
 </div>
 
-<br>
+<div class="aliveButtons">
 
-<button onclick="setAlive('${id}',4)">4</button>
+<button
+class="aliveBtn"
+onclick="setAliveWindow('${id}',4)">
 
-<button onclick="setAlive('${id}',3)">3</button>
+4
 
-<button onclick="setAlive('${id}',2)">2</button>
+</button>
 
-<button onclick="setAlive('${id}',1)">1</button>
+<button
+class="aliveBtn"
+onclick="setAliveWindow('${id}',3)">
 
-<button onclick="setAlive('${id}',0)">0</button>
+3
+
+</button>
+
+<button
+class="aliveBtn"
+onclick="setAliveWindow('${id}',2)">
+
+2
+
+</button>
+
+<button
+class="aliveBtn"
+onclick="setAliveWindow('${id}',1)">
+
+1
+
+</button>
+
+<button
+class="aliveBtn"
+onclick="setAliveWindow('${id}',0)">
+
+0
+
+</button>
+
+</div>
 
 </td>
 
 <td>
 
-<button onclick="deleteTeam('${id}')">
+<button
+class="deleteBtn"
+onclick="deleteTeamWindow('${id}')">
 
 Delete
 
@@ -132,3 +179,63 @@ Delete
     });
 
 }
+
+// --------------------------
+// WINDOW FUNCTIONS
+// --------------------------
+
+window.changeKillsWindow = async function(id, value){
+
+    await changeKills(id, value);
+
+    await checkTop4();
+
+    await checkChampion();
+
+}
+
+window.setAliveWindow = async function(id, value){
+
+    await setAlive(id, value);
+
+    await checkTop4();
+
+    await checkChampion();
+
+}
+
+window.deleteTeamWindow = async function(id){
+
+    await deleteTeam(id);
+
+}
+
+// --------------------------
+// BUTTONS
+// --------------------------
+
+document.getElementById("addTeam").onclick = async () => {
+
+    await addTeam();
+
+};
+
+document.getElementById("resetMatch").onclick = async () => {
+
+    if(confirm("Reset Match?")){
+
+        await resetMatch();
+
+    }
+
+};
+
+document.getElementById("finishMatch").onclick = async () => {
+
+    if(confirm("Finish Match?")){
+
+        await finishMatch();
+
+    }
+
+};
