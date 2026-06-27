@@ -341,3 +341,30 @@ opacity:1;
 }
 
 }
+/* Alive Player Boxes */
+
+.alive-box{
+
+width:12px;
+
+height:18px;
+
+display:inline-block;
+
+border-radius:2px;
+
+border:1px solid rgba(255,255,255,.30);
+
+}
+
+.alive{
+
+background:#00ff55;
+
+}
+
+.dead{
+
+background:#ffffff;
+
+}
