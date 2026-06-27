@@ -206,43 +206,7 @@ if(eliminated && !eliminatedTeams.has(team.id)){
 
 eliminatedTeams.add(team.id);
 
-elimFeed.innerHTML=`
-
-<div class="elim-card">
-
-<div class="players">
-
-<img src="assets/characters/default.png">
-
-<img src="assets/characters/default.png">
-
-<img src="assets/characters/default.png">
-
-<img src="assets/characters/default.png">
-
-</div>
-
-<div class="elim-team">
-
-${team.name}
-
-</div>
-
-<div class="elim-text">
-
-ELIMINATED
-
-</div>
-
-</div>
-
-`;
-
-setTimeout(()=>{
-
-elimFeed.innerHTML="";
-
-},5000);
+showElimination(team);
 
 }
 
