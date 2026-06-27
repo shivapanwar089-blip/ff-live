@@ -188,6 +188,22 @@ return b.kills-a.kills;
 });
 
 const aliveTeams = teams.filter(t=>t.alive>0);
+if(aliveTeams.length===1){
+
+champion.style.display="flex";
+
+champion.classList.add("show");
+
+championTeam.innerText=aliveTeams[0].name;
+
+}
+else{
+
+champion.style.display="none";
+
+champion.classList.remove("show");
+
+}
 
 // ===================================================
 // NORMAL LEADERBOARD
