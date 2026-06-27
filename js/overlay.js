@@ -1,1 +1,3 @@
-// Overlay JS
+<div class="alive">
+${sideBars(team.alive)}
+</div>
