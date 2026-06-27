@@ -298,9 +298,11 @@ font-weight:bold;
 
 .team-alive{
 
-font-size:18px;
+display:flex;
 
-letter-spacing:2px;
+align-items:center;
+
+gap:4px;
 
 }
 
