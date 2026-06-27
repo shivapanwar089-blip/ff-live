@@ -190,18 +190,20 @@ if(aliveTeams.length<=4 && aliveTeams.length>0){
 leaderboard.style.display="none";
 final4.style.display="flex";
 
-const totalKills=aliveTeams.reduce(
-(sum,t)=>sum+t.kills,0
-);
+// Kills 50% + Alive 50%
 
-final4.innerHTML="";
+const totalScore = aliveTeams.reduce((sum, team) => {
+    return sum + (team.kills * 0.5 + team.alive * 0.5);
+}, 0);
 
-aliveTeams.forEach(team=>{
+aliveTeams.forEach(team => {
 
-const winPercent=
-totalKills===0
-? Math.round(100/aliveTeams.length)
-: Math.round((team.kills/totalKills)*100);
+    const score = (team.kills * 0.5) + (team.alive * 0.5);
+
+    const winPercent =
+        totalScore === 0
+        ? Math.round(100 / aliveTeams.length)
+        : Math.round((score / totalScore) * 100);
 
 final4.innerHTML+=`
 <div class="final-card">
