@@ -409,13 +409,15 @@ width:70px;
 
 .side-box{
 
-width:8px;
+width:6px;
 
-height:14px;
+height:12px;
 
-border-radius:2px;
+border-radius:1px;
 
-display:inline-block;
+display:block;
+
+flex-shrink:0;
 
 }
 
