@@ -158,48 +158,26 @@ leaderboard.style.display="flex";
 
 final4.style.display="none";
 
-leaderboard.innerHTML="";
+leaderboard.innerHTML += `
 
-teams.forEach((team,index)=>{
-
-const eliminated = team.alive==0;
-
-leaderboard.innerHTML+=`
-
-<div class="team-row ${eliminated ? "eliminated":""}">
+<div class="team-row ${eliminated ? "eliminated" : ""}">
 
 <div class="rank">
-
 #${index+1}
-
 </div>
 
 <img
-
 class="logo"
-
 src="${team.logo}"
-
 onerror="this.src='assets/logos/default.png'"
-
 >
 
 <div class="name">
-
 ${team.name}
-
 </div>
 
 <div class="kills">
-
 ${team.kills}
-
-</div>
-
-<div class="alive">
-
-${sticks(team.alive)}
-
 </div>
 
 </div>
