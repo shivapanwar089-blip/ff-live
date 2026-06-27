@@ -249,7 +249,10 @@ aliveTeams.forEach((team,index)=>{
 
 const score=(team.alive*0.7)+(team.kills*0.3);
 
-const win=Math.round(score/totalScore*100);
+const win =
+totalScore === 0
+? Math.round(100 / aliveTeams.length)
+: Math.round((score / totalScore) * 100);
 
 final4.innerHTML+=`
 
