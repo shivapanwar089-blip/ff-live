@@ -50,9 +50,14 @@ appId: "1:479680596017:web:99e9f7ef93bb9b27c32d10"
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const leaderboard=document.getElementById("leaderboard");
-const final4=document.getElementById("final4");
+const elimFeed = document.getElementById("elimFeed");
 
+const leaderboard = document.getElementById("leaderboard");
+
+const final4 = document.getElementById("final4");
+
+let eliminatedTeams = new Set();
+    
 function sticks(num){
 return "|".repeat(num);
 }
