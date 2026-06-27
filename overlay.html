@@ -169,8 +169,12 @@ const aliveTeams = teams.filter(t=>t.alive>0);
 if(aliveTeams.length>4){
 
 leaderboard.style.display="flex";
-
 final4.style.display="none";
+leaderboard.innerHTML="";
+
+teams.forEach((team,index)=>{
+
+const eliminated = team.alive===0;
 
 leaderboard.innerHTML += `
 
@@ -194,14 +198,13 @@ ${team.name}
 ${team.kills}
 </div>
 
+<div class="alive">
+${sideBars(team.alive)}
+</div>
+
 </div>
 
 `;
-
-
-// =======================================
-// ELIMINATION FEED
-// =======================================
 
 if(eliminated && !eliminatedTeams.has(team.id)){
 
