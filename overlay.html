@@ -81,6 +81,20 @@ return html;
 
 }
 
+function sideBars(num){
+
+let bars="";
+
+for(let i=0;i<4;i++){
+
+bars += i<num ? "▮" : "▯";
+
+}
+
+return bars;
+
+}
+
 function showElimination(team){
 
 elimFeed.innerHTML += `
