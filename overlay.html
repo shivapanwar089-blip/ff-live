@@ -59,7 +59,17 @@ const final4 = document.getElementById("final4");
 let eliminatedTeams = new Set();
     
 function sticks(num){
-return "|".repeat(num);
+
+let bars="";
+
+for(let i=0;i<4;i++){
+
+bars+= i<num ? "▮" : "□";
+
+}
+
+return bars;
+
 }
 
 function render(data){
