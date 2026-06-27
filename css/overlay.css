@@ -343,13 +343,30 @@ opacity:1;
 }
 
 }
-/* Alive Player Boxes */
+
+/* ===========================
+   PLAYER BARS
+=========================== */
+
+/* ---------- TOP 4 ---------- */
+
+.team-alive{
+
+display:flex;
+
+align-items:center;
+
+justify-content:flex-end;
+
+gap:4px;
+
+}
 
 .alive-box{
 
-width:12px;
+width:8px;
 
-height:16px;
+height:14px;
 
 border-radius:2px;
 
@@ -358,40 +375,20 @@ display:block;
 flex-shrink:0;
 
 }
-.alive{
-
-background:#00ff55;
-
-}
-
-.dead{
-
-background:#ffffff;
-
-}
-
-.team-alive{
-display:flex;
-align-items:center;
-gap:5px;
-}
-
-.alive-box{
-width:10px;
-height:14px;
-display:block;
-border-radius:2px;
-}
 
 .alive-box.alive{
+
 background:#00ff55;
+
 }
 
 .alive-box.dead{
+
 background:#ffffff;
+
 }
 
-/* Side Leaderboard Bars */
+/* ---------- SIDE LEADERBOARD ---------- */
 
 .alive{
 
@@ -401,9 +398,9 @@ align-items:center;
 
 justify-content:flex-end;
 
-gap:2px;
+gap:4px;
 
-width:40px;
+width:50px;
 
 margin-left:8px;
 
@@ -411,11 +408,11 @@ margin-left:8px;
 
 .side-box{
 
-width:6px;
+width:8px;
 
-height:12px;
+height:14px;
 
-border-radius:1px;
+border-radius:2px;
 
 display:block;
 
@@ -431,6 +428,6 @@ background:#00ff55;
 
 .side-box.dead{
 
-background:white;
+background:#ffffff;
 
 }
