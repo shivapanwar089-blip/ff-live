@@ -2,7 +2,7 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
@@ -15,54 +15,97 @@ overflow:hidden;
 =========================== */
 
 #elimFeed{
+
 position:absolute;
+
 left:20px;
-top:180px;
+
+top:150px;
+
+width:340px;
+
 display:flex;
+
 flex-direction:column;
-gap:12px;
-z-index:999;
+
+gap:15px;
+
+z-index:9999;
+
 }
 
 .elim-card{
-width:330px;
-background:#1a1a1a;
-border-left:8px solid #ff3030;
+
+background:#171717;
+
+border-left:8px solid #ff3b3b;
+
 border-radius:12px;
-padding:14px;
+
+padding:12px;
+
 color:white;
-animation:slideLeft .45s ease;
-box-shadow:0 0 15px rgba(0,0,0,.45);
+
+animation:slideLeft .45s;
+
+box-shadow:0 0 20px rgba(0,0,0,.55);
+
 }
 
 .players{
+
 display:flex;
+
 justify-content:center;
-gap:5px;
+
+gap:4px;
+
 margin-bottom:10px;
+
 }
 
 .players img{
-width:60px;
-height:60px;
-object-fit:cover;
+
+width:65px;
+
+height:65px;
+
 border-radius:8px;
+
+object-fit:cover;
+
 }
 
 .elim-team{
-text-align:center;
+
 font-size:22px;
+
 font-weight:bold;
+
+text-align:center;
+
+margin-top:8px;
+
 }
 
 .elim-text{
+
 margin-top:10px;
+
 background:#ff3030;
+
 padding:8px;
-border-radius:6px;
+
+border-radius:8px;
+
 text-align:center;
-font-size:18px;
+
 font-weight:bold;
+
+font-size:18px;
+
+letter-spacing:1px;
+
 }
 
 /* ===========================
@@ -70,66 +113,113 @@ font-weight:bold;
 =========================== */
 
 #leaderboard{
+
 position:absolute;
+
 right:20px;
-top:100px;
+
+top:90px;
+
 width:430px;
+
 display:flex;
+
 flex-direction:column;
+
 gap:8px;
+
 }
 
 .team-row{
+
 display:flex;
+
 align-items:center;
-background:rgba(20,20,20,.92);
+
+background:rgba(18,18,18,.92);
+
 border-left:5px solid orange;
+
 padding:10px;
+
 border-radius:8px;
-color:white;
+
 transition:.35s;
+
+color:white;
+
 }
 
 .team-row.eliminated{
+
 opacity:.35;
+
 filter:grayscale(100%);
+
 }
 
 .rank{
-width:45px;
-font-size:20px;
-font-weight:bold;
+
+width:42px;
+
 text-align:center;
+
+font-size:20px;
+
+font-weight:bold;
+
 }
 
 .logo{
+
 width:42px;
+
 height:42px;
+
 border-radius:50%;
+
 object-fit:cover;
+
 margin-right:10px;
+
 }
 
 .name{
+
 flex:1;
+
 font-size:16px;
+
 font-weight:bold;
+
 }
 
 .kills{
-width:65px;
+
+width:70px;
+
 text-align:center;
-font-size:18px;
-font-weight:bold;
+
 color:#ffb300;
+
+font-size:19px;
+
+font-weight:bold;
+
 }
 
 .alive{
-width:70px;
+
+width:75px;
+
 text-align:right;
+
 font-size:20px;
+
 letter-spacing:2px;
+
 color:#00ff88;
+
 }
 
 /* ===========================
@@ -137,53 +227,93 @@ color:#00ff88;
 =========================== */
 
 #final4{
+
 display:none;
+
 position:absolute;
-top:25px;
+
+top:18px;
+
 left:50%;
+
 transform:translateX(-50%);
-gap:14px;
+
+gap:15px;
+
 }
 
 .final-card{
-width:300px;
-height:82px;
+
+width:310px;
+
+height:85px;
+
 padding:10px 14px;
-border-radius:10px;
-background:linear-gradient(90deg,#5527ff,#8c3fff);
-color:white;
+
+border-radius:12px;
+
+background:linear-gradient(90deg,#5b29ff,#9a43ff);
+
 display:flex;
+
 flex-direction:column;
+
 justify-content:center;
+
+color:white;
+
 border:2px solid rgba(255,255,255,.25);
+
+box-shadow:0 0 15px rgba(0,0,0,.45);
+
 }
 
 .card-top{
+
 display:flex;
+
 justify-content:space-between;
+
 align-items:center;
+
 }
 
 .team-left{
+
 display:flex;
+
 align-items:center;
+
 gap:10px;
+
 }
 
 .team-name{
-font-size:18px;
+
+font-size:17px;
+
 font-weight:bold;
+
 }
 
 .team-alive{
+
 font-size:18px;
+
 letter-spacing:2px;
+
 }
 
 .win-percent{
+
 margin-top:8px;
-font-size:18px;
+
+font-size:17px;
+
 font-weight:bold;
+
+margin-left:54px;
+
 }
 
 /* ===========================
@@ -193,13 +323,19 @@ font-weight:bold;
 @keyframes slideLeft{
 
 from{
-transform:translateX(-350px);
+
+transform:translateX(-400px);
+
 opacity:0;
+
 }
 
 to{
+
 transform:translateX(0);
+
 opacity:1;
+
 }
 
 }
