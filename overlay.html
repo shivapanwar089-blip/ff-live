@@ -60,15 +60,24 @@ let eliminatedTeams = new Set();
     
 function sticks(num){
 
-let bars="";
+let html="";
 
 for(let i=0;i<4;i++){
 
-bars+= i<num ? "▮" : "□";
+if(i<num){
+
+html += `<span class="alive-box alive"></span>`;
+
+}
+else{
+
+html += `<span class="alive-box dead"></span>`;
 
 }
 
-return bars;
+}
+
+return html;
 
 }
 
