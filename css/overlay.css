@@ -69,10 +69,17 @@ margin:10px 0;
 }
 
 .elim-team{
-    text-align:center;
-    font-size:21px;
-    font-weight:bold;
-    margin-top:6px;
+
+font-size:20px;
+
+font-weight:bold;
+
+text-align:center;
+
+letter-spacing:.5px;
+
+text-transform:uppercase;
+
 }
 
 .elim-text{
