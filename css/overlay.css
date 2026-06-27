@@ -397,13 +397,15 @@ background:#ffffff;
 
 display:flex;
 
-justify-content:center;
-
 align-items:center;
 
-gap:3px;
+justify-content:flex-end;
 
-width:70px;
+gap:2px;
+
+width:40px;
+
+margin-left:8px;
 
 }
 
