@@ -72,6 +72,52 @@ return bars;
 
 }
 
+function showElimination(team){
+
+elimFeed.innerHTML += `
+
+<div class="elim-card">
+
+<div class="players">
+
+<img src="assets/characters/default.png">
+
+<img src="assets/characters/default.png">
+
+<img src="assets/characters/default.png">
+
+<img src="assets/characters/default.png">
+
+</div>
+
+<div class="elim-team">
+
+${team.name}
+
+</div>
+
+<div class="elim-text">
+
+ELIMINATED
+
+</div>
+
+</div>
+
+`;
+
+setTimeout(()=>{
+
+if(elimFeed.firstElementChild){
+
+elimFeed.removeChild(elimFeed.firstElementChild);
+
+}
+
+},5000);
+
+}
+
 function render(data){
 
 let teams = Object.entries(data || {})
