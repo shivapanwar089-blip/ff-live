@@ -190,47 +190,53 @@ if(aliveTeams.length<=4 && aliveTeams.length>0){
 leaderboard.style.display="none";
 final4.style.display="flex";
 
-// Kills 50% + Alive 50%
+// Win Probability
+// Alive = 70%
+// Kills = 30%
 
 const totalScore = aliveTeams.reduce((sum, team) => {
-    return sum + (team.kills * 0.5 + team.alive * 0.5);
+    return sum + (team.kills * 0.3 + team.alive * 0.7);
 }, 0);
 
 aliveTeams.forEach(team => {
 
-    const score = (team.kills * 0.5) + (team.alive * 0.5);
+    const score = (team.kills * 0.3) + (team.alive * 0.7);
 
     const winPercent =
         totalScore === 0
         ? Math.round(100 / aliveTeams.length)
         : Math.round((score / totalScore) * 100);
 
-final4.innerHTML+=`
+    final4.innerHTML += `
+
 <div class="final-card">
 
-<img
-class="final-logo"
-src="${team.logo}"
-onerror="this.src='https://via.placeholder.com/70'"
->
+    <div class="card-top">
 
-<div class="final-name">
-${team.name}
+        <div class="team-left">
+
+            <span class="rank">#${team.rank || ""}</span>
+
+            <span class="team-name">${team.name}</span>
+
+        </div>
+
+        <div class="team-alive">
+
+            ${"|".repeat(team.alive)}
+
+        </div>
+
+    </div>
+
+    <div class="win-percent">
+
+        Win ${winPercent}%
+
+    </div>
+
 </div>
 
-<div class="final-kills">
-${team.kills} KILLS
-</div>
-
-<div class="final-alive">
-${sticks(team.alive)}
-</div>
-
-<div class="final-win">
-${winPercent}% WIN
-</div>
-
-</div>
 `;
 
 });
