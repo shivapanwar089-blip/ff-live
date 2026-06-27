@@ -368,3 +368,24 @@ background:#00ff55;
 background:#ffffff;
 
 }
+
+.team-alive{
+display:flex;
+align-items:center;
+gap:5px;
+}
+
+.alive-box{
+width:10px;
+height:14px;
+display:block;
+border-radius:2px;
+}
+
+.alive-box.alive{
+background:#00ff55;
+}
+
+.alive-box.dead{
+background:#ffffff;
+}
